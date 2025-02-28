@@ -36,6 +36,8 @@ html, body, #root {
   box-shadow: 0 10px 11px hsla(11,80%,31%,1);
   text-align: left;
   margin-top: 40px;
+  color:black;
+  background-color: white;
 }
 
 /* Add focus effect */
@@ -70,12 +72,9 @@ html, body, #root {
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     list-style: none;
-    /* margin-top: 10px; */
     padding: 0;
-    /* max-height: 200px; */
     overflow-y: auto;
     z-index: 10;
-    /* position: absolute; */
     top: 70px;
     animation: slideDown 0.3s ease-in-out;
 }
@@ -86,6 +85,7 @@ html, body, #root {
   padding: 12px;
   cursor: pointer;
   transition: background 0.2s ease-in-out;
+  color:black;
 }
 
 .suggestions li:hover {
@@ -114,6 +114,7 @@ html, body, #root {
 .search-results ul {
   list-style: none;
   padding: 0;
+  color:black;
 }
 
 .search-results li {
@@ -155,7 +156,7 @@ html, body, #root {
 }
 
 .search-button:disabled {
-  color: #ccc; /* Light gray color for disabled state */
-  cursor: not-allowed;    /* Prevent cursor pointer on disabled button */
-  opacity: 0.5;           /* Optional: reduce opacity for disabled state */
+  color: #ccc; 
+  cursor: not-allowed;  
+  opacity: 0.5;           
 }
