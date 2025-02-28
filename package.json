@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -39,7 +40,8 @@
   "jest": {
     "testEnvironment": "jest-environment-jsdom",
     "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy"
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/src/tests/__mocks__/fileMock.js"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.js"

@@ -5,31 +5,30 @@ import SearchBar from "../components/searchBar";
 require("@testing-library/jest-dom");
 
 
-// Mock fetch globally
 beforeAll(() => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve([]), // Default empty response
+        json: () => Promise.resolve([]), 
       })
     );
   });
 
 describe("SearchBar Component", () => {
   beforeEach(() => {
-    jest.clearAllMocks(); // Reset mocks before each test
+    jest.clearAllMocks(); 
   });
 
   test("renders the search input and button", () => {
     render(<SearchBar />);
     
-    expect(screen.getByPlaceholderText("Search...")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Search the name here...")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /search/i })).toBeInTheDocument();
   });
 
   test("updates input value when typing", () => {
     render(<SearchBar />);
     
-    const input = screen.getByPlaceholderText("Search...");
+    const input = screen.getByPlaceholderText("Search the name here...");
     fireEvent.change(input, { target: { value: "test" } });
 
     expect(input.value).toBe("test");
@@ -38,38 +37,13 @@ describe("SearchBar Component", () => {
   test("does not fetch suggestions if query length is <= 3", async () => {
     render(<SearchBar />);
     
-    const input = screen.getByPlaceholderText("Search...");
+    const input = screen.getByPlaceholderText("Search the name here...");
     fireEvent.change(input, { target: { value: "tes" } });
 
     await waitFor(() => {
       expect(global.fetch).not.toHaveBeenCalled();
     });
   });
-
-// test("fetches and displays suggestions when typing more than 3 characters", async () => {
-//     fetch.mockResolvedValueOnce({
-//         ok: true,
-//         json: async () => [
-//             { id: 1, name: "John Doe" },
-//             { id: 2, name: "Jane Smith" },
-//         ],
-//     });
-
-//     render(<SearchBar />);
-
-//     const input = screen.getByPlaceholderText("Search...");
-//     await userEvent.type(input, "test");
-
-//     await waitFor(() => {
-//         expect(fetch).toHaveBeenCalledTimes(1);
-//     });
-
-//     await waitFor(() => {
-//         expect(screen.getByText("John Doe")).toBeInTheDocument();
-//         expect(screen.getByText("Jane Smith")).toBeInTheDocument();
-//     });
-// });
-
 
   test("fetches and displays search results on search button click", async () => {
     fetch.mockResolvedValueOnce({
@@ -80,7 +54,7 @@ describe("SearchBar Component", () => {
 
     render(<SearchBar />);
     
-    const input = screen.getByPlaceholderText("Search...");
+    const input = screen.getByPlaceholderText("Search the name here...");
     const searchButton = screen.getByRole("button", { name: /search/i });
 
     fireEvent.change(input, { target: { value: "test" } });
@@ -95,38 +69,13 @@ describe("SearchBar Component", () => {
     expect(await screen.findByText("Sample comment text")).toBeInTheDocument();
   });
 
-//   test("clears suggestions when search button is clicked", async () => {
-//     fetch.mockResolvedValueOnce({
-//       json: jest.fn().mockResolvedValue([
-//         { id: 1, name: "John Doe" },
-//       ]),
-//     });
-
-//     render(<SearchBar />);
-    
-//     const input = screen.getByPlaceholderText("Search...");
-//     const searchButton = screen.getByRole("button", { name: /search/i });
-
-//     fireEvent.change(input, { target: { value: "test" } });
-
-//     await waitFor(() => {
-//       expect(screen.getByText("John Doe")).toBeInTheDocument();
-//     });
-
-//     fireEvent.click(searchButton);
-
-//     await waitFor(() => {
-//       expect(screen.queryByText("John Doe")).not.toBeInTheDocument();
-//     });
-//   });
-
   test("handles API error gracefully", async () => {
     console.error = jest.fn(); // Mock console.error to suppress output in test logs
     fetch.mockRejectedValueOnce(new Error("Network Error"));
 
     render(<SearchBar />);
     
-    const input = screen.getByPlaceholderText("Search...");
+    const input = screen.getByPlaceholderText("Search the name here...");
     const searchButton = screen.getByRole("button", { name: /search/i });
 
     fireEvent.change(input, { target: { value: "errorTest" } });

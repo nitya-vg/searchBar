@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import debounce from "lodash.debounce";
 import SearchResults from "./SearchResults";
+import NoResultsImage from "../assets/NoResults.jpg";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [results, setResults] = useState([]);
+  const [searchClicked, setSearchClicked] = useState(false);
+  const enableSearchButton = query.length > 3;
   const debouncedFetchResults = useRef(null);
 
   // Debounced function for typeahead suggestions
@@ -30,6 +33,10 @@ const SearchBar = () => {
     debouncedFetchResults.current(query);
   }, [query]);
 
+  useEffect(() => {
+    setSearchClicked(false);
+  }, [query]);
+
   // Fetch search results on button click
   const handleSearch = async () => {
     if (query.length > 3) {
@@ -42,6 +49,7 @@ const SearchBar = () => {
         console.error("Error fetching search results:", error);
       }
     }
+    setSearchClicked(true);
   };
 
   return (
@@ -51,10 +59,10 @@ const SearchBar = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search..."
+            placeholder="Search the name here..."
             className="search-box"
             />
-            <button onClick={handleSearch} className="search-button">Search</button>
+           <button disabled={query.length < 4} onClick={handleSearch} className="search-button">Search</button>
         </div>
 
         {/* Display Suggestions Below Search Bar */}
@@ -67,9 +75,12 @@ const SearchBar = () => {
             ))}
             </ul>
         )}
-        <SearchResults results={results} />  
+         {results.length > 0 ? (
+        <SearchResults results={results} />
+      ) : (
+        query.length >= 4 && results.length === 0 && searchClicked && <img className="no-results" src={NoResultsImage} alt="No Results" />
+      )}
     </div>
-
   );
 };
 
